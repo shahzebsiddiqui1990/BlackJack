@@ -101,6 +101,7 @@ class Hand:
                 
         return self.score
    
+   # draw cards for dealer,and player hand with offset in x-direction by 100
     def draw(self, canvas, pos):
         
         for cards_hand in self.handlist:
@@ -109,7 +110,8 @@ class Hand:
             # draw a hand on the canvas, use the draw method for cards
              
 # define deck class 
-class Deck:        
+class Deck:     
+	# add all cards to deck as a list containing Card objects using append method
     def __init__(self):
         self.decklist = []
         for suit in SUITS:
@@ -119,7 +121,7 @@ class Deck:
 
     def shuffle(self):
         random.shuffle(self.decklist)
-
+	# remove last card from deck
     def deal_card(self):
         return self.decklist.pop(-1)        
     
@@ -140,8 +142,9 @@ def deal():
     if gameover == False and numdeals != 1:
         game_outcome = "Dealer wins, Player forfeit."
         score -= 1
-    
+    # starting new game, gameover is False throughout game until Dealer or Player wins.
     gameover = False    
+	
     dealer_turn = False
     deck_obj = Deck()    
     deck_obj.shuffle()
@@ -149,6 +152,7 @@ def deal():
     player_hand = Hand()
     dealer_hand = Hand()
     
+	# formulate hand for dealer and player 
     dealer_hand.add_card(deck_obj.deal_card())
     player_hand.add_card(deck_obj.deal_card())
     dealer_hand.add_card(deck_obj.deal_card())
@@ -169,7 +173,7 @@ def hit():
         # if the hand is in play, hit the player
         if in_play == True:
             player_hand.add_card(deck_obj.deal_card())
-        
+        # Player exceeds 21 (busted) while hit, player gets -3 points 
         if player_hand.get_value() > 21:
             in_play = False        
             game_outcome =  "Player Busted!!!, Dealer wins"
@@ -202,9 +206,11 @@ def stand():
                 score += 3
             else:
                 score += 5
+		# Player loses 1 point since dealer wins by value		
         elif dealer_hand.get_value() >= player_hand.get_value():
             game_outcome = "Dealer Wins"
             score -= 1
+		# Players wins against dealer, gets +1 point for regular win, but if Player gets 21 then +5 points are added
         else:
             game_outcome = "Player Wins"
             if player_hand.get_value() == 21:
@@ -212,8 +218,7 @@ def stand():
             else:
                 score += 1
     
-    gameover = True            
-    # assign a message to outcome, update in_play and score
+    gameover = True                
 
 # draw handler    
 def draw(canvas):
@@ -222,6 +227,7 @@ def draw(canvas):
     player_hand.draw(canvas,[100,450])
     dealer_hand.draw(canvas,[100,200])
     
+	#draw back of card image until dealer turn is false or player is busted
     if dealer_turn == False or in_play == False:
         canvas.draw_image(card_back, (CARD_BACK_CENTER[0],CARD_BACK_CENTER[1]), (CARD_BACK_SIZE[0],CARD_BACK_SIZE[1]), (100 + CARD_BACK_CENTER[0], 200 + CARD_BACK_CENTER[1]), (CARD_BACK_SIZE[0],CARD_BACK_SIZE[1]))
     
