@@ -1,4 +1,13 @@
-# Handler to draw on canvas# Mini-project #6 - Blackjack
+"""
+Author: Shahzeb Siddiqui
+Date: 05/03/2014
+Description: This is an implementation of BlackJack card game with only two players. Player versus Dealer. This game does
+             not contain all the casino rules for BlackJack such as double down and splitting hands, however the basic 
+             functionality of BlackJack is present. In this game Dealer wins on ties and player score depends on the game outcome.
+             
+Note: This code works with codeskulptor.org and will not work with tradition Python compiler because it uses library simplegui
+      which is a custom made library
+"""      
 
 import simplegui
 import random
@@ -115,7 +124,7 @@ class Deck:
 
 
 
-#define event handlers for buttons
+#deal sets up BlackJack with two cards for dealer and player where the hole card is hidden for dealer.
 def deal():
     global game_outcome,outcome_action, in_play, player_hand, dealer_hand, deck_obj, dealer_turn, gameover,score, numdeals 
     
@@ -141,10 +150,10 @@ def deal():
     
     outcome_action = "Hit or Stand?"
     
-    # your code goes here
     
     in_play = True
 
+# Player receives a new card to its hand and the hand score is recomputed
 def hit():    
     global score, player_hand, deck_obj, game_outcome, outcome_action, in_play
     game_outcome = ""
@@ -161,8 +170,8 @@ def hit():
             score -= 3
         
     
-    # if busted, assign a message to outcome, update in_play and score
-       
+
+# Once player stands, its dealer turn and outcome of game is determined        
 def stand():
     
     global dealer_hand, deck_obj, outcome_action, game_outcome, dealer_turn, score, gameover
@@ -197,7 +206,7 @@ def stand():
                 score += 1
     
     gameover = True            
-    # assign a message to outcome, update in_play and score
+    
 
 # draw handler    
 def draw(canvas):
@@ -236,6 +245,6 @@ frame.add_label("Dealer Bust: +3")
 frame.add_label("Player BlackJack(21): +5")
 
 
-# get things rolling
+# start frame and deal hand
 deal()
 frame.start()
